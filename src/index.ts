@@ -16,6 +16,18 @@ const argv = yargs(process.argv.slice(2))
       default: false,
       description: "Show header",
     },
+    nt: {
+      type: "boolean",
+      alias: "no-trim",
+      default: false,
+      description: "Don't trim message",
+    },
+    e: {
+      type: "boolean",
+      alias: "allow-empty",
+      default: false,
+      description: "Allow empty message",
+    },
   })
   .parseSync();
 
@@ -57,35 +69,41 @@ async function questionAsync() {
 
   if (answer.startsWith("@all ") || !answer.match(/^@\d+ /)) {
     // broadcast to all clients
-    const content = answer.startsWith("@all ") ? answer.slice(5) : answer;
-    await Promise.all(
-      [...clients].map(([id, ws]) => {
-        new Promise<void>((resolve) => {
+    const raw = answer.startsWith("@all ") ? answer.slice(5) : answer;
+    const content = argv.nt ? raw : raw.trim();
+    if (content.length > 0 || argv.e) {
+      await Promise.all(
+        [...clients].map(([id, ws]) => {
+          new Promise<void>((resolve) => {
+            ws.send(content, (err) => {
+              if (err) {
+                console.error(chalk.red(`\r@${id}: ${err.message}`));
+                clients.delete(id);
+              }
+              resolve();
+            });
+          });
+        })
+      );
+      console.log(chalk.blue(`\r@all < ${content}`));
+    }
+  } else {
+    const id = answer.match(/^@(\d+) /)![1];
+    const raw = answer.slice(id.length + 2); // +2 for @ and space
+    const content = argv.nt ? raw : raw.trim();
+    if (content.length > 0 || argv.e) {
+      const ws = clients.get(Number(id));
+      if (ws) {
+        await new Promise<void>((resolve) => {
           ws.send(content, (err) => {
             if (err) {
               console.error(chalk.red(`\r@${id}: ${err.message}`));
-              clients.delete(id);
-            }
+              clients.delete(Number(id));
+            } else console.log(chalk.blue(`\r@${id} < ${content}`));
             resolve();
           });
         });
-      })
-    );
-    console.log(chalk.blue(`\r@all < ${content}`));
-  } else {
-    const id = answer.match(/^@(\d+) /)![1];
-    const content = answer.slice(id.length + 2); // +2 for @ and space
-    const ws = clients.get(Number(id));
-    if (ws) {
-      await new Promise<void>((resolve) => {
-        ws.send(content, (err) => {
-          if (err) {
-            console.error(chalk.red(`\r@${id}: ${err.message}`));
-            clients.delete(Number(id));
-          } else console.log(chalk.blue(`\r@${id} < ${content}`));
-          resolve();
-        });
-      });
+      }
     }
   }
 
