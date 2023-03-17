@@ -17,6 +17,8 @@ npm install -g @discretetom/ws-server
 
 Start the server using `ws-server` command, then interact with clients using stdin/stdout.
 
+You can use [wscat](https://github.com/websockets/wscat) as a test client.
+
 ![example](./img/example.png)
 
 ## Usage
@@ -30,10 +32,7 @@ Options:
   -h, --header       Show header                      [boolean] [default: false]
   -T, --no-trim      Don't trim message               [boolean] [default: false]
   -e, --allow-empty  Allow empty message              [boolean] [default: false]
+  -E, --echo         Print message from the server    [boolean] [default: false]
 ```
-
-## Resources
-
-- [wscat](https://github.com/websockets/wscat)
 
 ## [CHANGELOG](https://github.com/DiscreteTom/ws-server/blob/main/CHANGELOG.md)
