@@ -61,7 +61,7 @@ rl.on("line", async (answer) => {
           new Promise<void>((resolve) => {
             ws.send(content, (err) => {
               if (err) {
-                print(chalk.red(`\r@${id}: ${err.message}`));
+                print(chalk.red(`@${id}: ${err.message}`));
                 clients.delete(id);
               }
               resolve();
@@ -69,7 +69,7 @@ rl.on("line", async (answer) => {
           });
         })
       );
-      if (argv.E) print(chalk.blue(`\r@all < ${content}`)); // echo
+      if (argv.E) print(chalk.blue(`@all < ${content}`)); // echo
       else rl.prompt(true);
     }
   } else {
@@ -82,10 +82,9 @@ rl.on("line", async (answer) => {
         await new Promise<void>((resolve) => {
           ws.send(content, (err) => {
             if (err) {
-              print(chalk.red(`\r@${id}: ${err.message}`));
+              print(chalk.red(`@${id}: ${err.message}`));
               clients.delete(Number(id));
-            } else if (argv.E)
-              print(chalk.blue(`\r@${id} < ${content}`)); // echo
+            } else if (argv.E) print(chalk.blue(`@${id} < ${content}`)); // echo
             else rl.prompt(true);
             resolve();
           });
@@ -102,23 +101,23 @@ wss.on("connection", function connection(ws, req) {
   const currentClientId = clientId;
   clients.set(currentClientId, ws);
 
-  print(chalk.green(`\rClient @${currentClientId} connected`));
-  if (argv.h) print(`\rHeaders @${currentClientId}: ${req.headers}`);
+  print(chalk.green(`Client @${currentClientId} connected`));
+  if (argv.h) print(`Headers @${currentClientId}: ${req.headers}`);
 
   ws.on("error", (err) => {
-    print(chalk.red(`\r@${currentClientId}: ${err.message}`));
+    print(chalk.red(`@${currentClientId}: ${err.message}`));
     clients.delete(currentClientId);
   });
 
   ws.on("message", (data) =>
-    print(chalk.green(`\r@${currentClientId} > ${data}`))
+    print(chalk.green(`@${currentClientId} > ${data}`))
   );
 
   ws.on("close", () => {
-    print(chalk.green(`\rClient @${currentClientId} disconnected`));
+    print(chalk.green(`Client @${currentClientId} disconnected`));
     clients.delete(currentClientId);
   });
 
   clientId++;
 });
-wss.on("error", (err) => print(chalk.red(`\rServer: ${err.message}`)));
+wss.on("error", (err) => print(chalk.red(`Server: ${err.message}`)));
