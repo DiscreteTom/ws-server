@@ -28,6 +28,12 @@ const argv = yargs(process.argv.slice(2))
       default: false,
       description: "Allow empty message",
     },
+    E: {
+      type: "boolean",
+      alias: "echo",
+      default: false,
+      description: "Print message from the server",
+    },
   })
   .parseSync();
 
@@ -63,7 +69,8 @@ rl.on("line", async (answer) => {
           });
         })
       );
-      print(chalk.blue(`\r@all < ${content}`));
+      if (argv.E) print(chalk.blue(`\r@all < ${content}`)); // echo
+      else rl.prompt(true);
     }
   } else {
     const id = answer.match(/^@(\d+) /)![1];
@@ -77,7 +84,9 @@ rl.on("line", async (answer) => {
             if (err) {
               print(chalk.red(`\r@${id}: ${err.message}`));
               clients.delete(Number(id));
-            } else print(chalk.blue(`\r@${id} < ${content}`));
+            } else if (argv.E)
+              print(chalk.blue(`\r@${id} < ${content}`)); // echo
+            else rl.prompt(true);
             resolve();
           });
         });
