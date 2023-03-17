@@ -16,7 +16,7 @@ const argv = yargs(process.argv.slice(2))
       default: false,
       description: "Show header",
     },
-    nt: {
+    T: {
       type: "boolean",
       alias: "no-trim",
       default: false,
@@ -48,7 +48,7 @@ rl.on("line", async (answer) => {
   if (answer.startsWith("@all ") || !answer.match(/^@\d+ /)) {
     // broadcast to all clients
     const raw = answer.startsWith("@all ") ? answer.slice(5) : answer;
-    const content = argv.nt ? raw : raw.trim();
+    const content = argv.T ? raw : raw.trim();
     if (content.length > 0 || argv.e) {
       await Promise.all(
         [...clients].map(([id, ws]) => {
@@ -68,7 +68,7 @@ rl.on("line", async (answer) => {
   } else {
     const id = answer.match(/^@(\d+) /)![1];
     const raw = answer.slice(id.length + 2); // +2 for @ and space
-    const content = argv.nt ? raw : raw.trim();
+    const content = argv.T ? raw : raw.trim();
     if (content.length > 0 || argv.e) {
       const ws = clients.get(Number(id));
       if (ws) {
