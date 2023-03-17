@@ -1,5 +1,8 @@
 # ws-server
 
+[![npm](https://img.shields.io/npm/v/@discretetom/ws-server?style=flat-square)](https://www.npmjs.com/package/@discretetom/ws-server)
+![NPM](https://img.shields.io/npm/l/@discretetom/ws-server?style=flat-square)
+
 A CLI tool to start a WebSocket debug server using NodeJS.
 
 This is useful when you want to mock a WebSocket server to test your WebSocket client.
@@ -7,7 +10,7 @@ This is useful when you want to mock a WebSocket server to test your WebSocket c
 ## Installation
 
 ```bash
-npm install -g ws-server
+npm install -g @discretetom/ws-server
 ```
 
 ## Example
