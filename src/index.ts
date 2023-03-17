@@ -56,21 +56,25 @@ rl.on("line", async (answer) => {
     const raw = answer.startsWith("@all ") ? answer.slice(5) : answer;
     const content = argv.T ? raw : raw.trim();
     if (content.length > 0 || argv.e) {
-      await Promise.all(
-        [...clients].map(([id, ws]) => {
-          new Promise<void>((resolve) => {
-            ws.send(content, (err) => {
-              if (err) {
-                print(chalk.red(`@${id}: ${err.message}`));
-                clients.delete(id);
-              }
-              resolve();
+      if (clients.size > 0) {
+        await Promise.all(
+          [...clients].map(([id, ws]) => {
+            new Promise<void>((resolve) => {
+              ws.send(content, (err) => {
+                if (err) {
+                  print(chalk.red(`@${id}: ${err.message}`));
+                  clients.delete(id);
+                }
+                resolve();
+              });
             });
-          });
-        })
-      );
-      if (argv.E) print(chalk.blue(`@all < ${content}`)); // echo
-      else rl.prompt(true);
+          })
+        );
+        if (argv.E) print(chalk.blue(`@all < ${content}`)); // echo
+        else rl.prompt(true);
+      } else {
+        print(chalk.red("No client connected"));
+      }
     } else {
       print(chalk.gray("Empty message, ignored."));
     }
@@ -91,6 +95,8 @@ rl.on("line", async (answer) => {
             resolve();
           });
         });
+      } else {
+        print(chalk.red(`Client @${id} not found`));
       }
     } else {
       print(chalk.gray("Empty message, ignored."));
