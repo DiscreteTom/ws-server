@@ -71,6 +71,8 @@ rl.on("line", async (answer) => {
       );
       if (argv.E) print(chalk.blue(`@all < ${content}`)); // echo
       else rl.prompt(true);
+    } else {
+      print(chalk.gray("Empty message, ignored."));
     }
   } else {
     const id = answer.match(/^@(\d+) /)![1];
@@ -90,6 +92,8 @@ rl.on("line", async (answer) => {
           });
         });
       }
+    } else {
+      print(chalk.gray("Empty message, ignored."));
     }
   }
 });
