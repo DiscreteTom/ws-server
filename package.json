@@ -1,6 +1,6 @@
 {
   "name": "@discretetom/ws-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "out/index.js",
   "repository": "git@github.com:DiscreteTom/ws-server.git",
   "author": "DiscreteTom <discrete_tom@outlook.com>",
