@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^18.15.3",
