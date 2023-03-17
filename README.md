@@ -35,3 +35,5 @@ Options:
 ## Resources
 
 - [wscat](https://github.com/websockets/wscat)
+
+## [CHANGELOG](https://github.com/DiscreteTom/ws-server/blob/main/CHANGELOG.md)
