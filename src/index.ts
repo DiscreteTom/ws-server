@@ -26,25 +26,26 @@ wss.on("connection", function connection(ws, req) {
   const currentClientId = clientId;
   clients.set(currentClientId, ws);
 
-  console.log(chalk.green(`Client @${currentClientId} connected`));
-  if (argv.h) console.log(`Headers @${currentClientId}: ${req.headers}`);
+  console.log(chalk.green(`\rClient @${currentClientId} connected`));
+  if (argv.h) console.log(`\rHeaders @${currentClientId}: ${req.headers}`);
 
   ws.on("error", (err) => {
-    console.error(chalk.red(`@${currentClientId}: ${err.message}`));
+    console.error(chalk.red(`\r@${currentClientId}: ${err.message}`));
     clients.delete(currentClientId);
   });
 
   ws.on("message", (data) =>
-    console.log(chalk.green(`@${currentClientId} > ${data}`))
+    console.log(chalk.green(`\r@${currentClientId} > ${data}`))
   );
 
   ws.on("close", () => {
-    console.log(chalk.green(`Client @${currentClientId} disconnected`));
+    console.log(chalk.green(`\rClient @${currentClientId} disconnected`));
     clients.delete(currentClientId);
   });
 
   clientId++;
 });
+wss.on("error", (err) => console.error(chalk.red(`\rServer: ${err.message}`)));
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -62,7 +63,7 @@ async function questionAsync() {
         new Promise<void>((resolve) => {
           ws.send(content, (err) => {
             if (err) {
-              console.error(chalk.red(`@${id}: ${err.message}`));
+              console.error(chalk.red(`\r@${id}: ${err.message}`));
               clients.delete(id);
             }
             resolve();
@@ -70,7 +71,7 @@ async function questionAsync() {
         });
       })
     );
-    console.log(chalk.blue(`@all < ${content}`));
+    console.log(chalk.blue(`\r@all < ${content}`));
   } else {
     const id = answer.match(/^@(\d+) /)![1];
     const content = answer.slice(id.length + 2); // +2 for @ and space
@@ -79,9 +80,9 @@ async function questionAsync() {
       await new Promise<void>((resolve) => {
         ws.send(content, (err) => {
           if (err) {
-            console.error(chalk.red(`@${id}: ${err.message}`));
+            console.error(chalk.red(`\r@${id}: ${err.message}`));
             clients.delete(Number(id));
-          } else console.log(chalk.blue(`@${id} < ${content}`));
+          } else console.log(chalk.blue(`\r@${id} < ${content}`));
           resolve();
         });
       });
