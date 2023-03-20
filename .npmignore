@@ -11,3 +11,5 @@ tests
 .prettierrc
 jest.config.js
 typedoc.json
+img
+README.md
