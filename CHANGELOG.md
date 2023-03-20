@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.1.2
+
+Fix publish error, add npm ignore.
+
 ## v0.1.1
 
 - Feat: Optional `-E/--echo`.

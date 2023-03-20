@@ -1,6 +1,6 @@
 {
   "name": "@discretetom/ws-server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "out/index.js",
   "repository": "git@github.com:DiscreteTom/ws-server.git",
   "author": "DiscreteTom <discrete_tom@outlook.com>",
@@ -11,7 +11,7 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "prepublish": "npm run build"
+    "prepublish": "yarn build"
   },
   "devDependencies": {
     "@types/node": "^18.15.3",
