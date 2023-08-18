@@ -50,8 +50,38 @@ function print(msg: string) {
   rl.prompt(true);
 }
 
+const help = `# show this help
+/help
+# exit
+/exit
+# exit
+/quit
+
+# send message to all clients
+@all <message>
+# you can omit @all
+<message>
+
+# send message to a specific client
+@<id> <message>
+
+# disconnect a client
+!<id>`;
+
 rl.on("line", async (answer) => {
-  if (answer.match(/^!\d+$/)) {
+  if (answer === "/help") {
+    print(
+      help
+        .split("\n")
+        .map((s) => {
+          if (s.startsWith("#")) return chalk.gray(s);
+          return s.replaceAll(/<(.+?)>/g, (_, msg) => chalk.yellow(`<${msg}>`));
+        })
+        .join("\n")
+    );
+  } else if (answer === "/exit" || answer === "/quit") {
+    process.exit(0);
+  } else if (answer.match(/^!\d+$/)) {
     // disconnect client
     const id = Number(answer.slice(1));
     const ws = clients.get(id);
