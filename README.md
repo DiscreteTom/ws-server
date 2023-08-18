@@ -30,6 +30,13 @@ Options:
 ## Commands
 
 ```bash
+# show this help
+/help
+# exit
+/exit
+# exit
+/quit
+
 # send message to all clients
 @all <message>
 # you can omit @all
