@@ -13,14 +13,6 @@ This is useful when you want to mock a WebSocket server to test your WebSocket c
 npm install -g @discretetom/ws-server
 ```
 
-## Example
-
-Start the server using `ws-server` command, then interact with clients using stdin/stdout.
-
-You can use [wscat](https://github.com/websockets/wscat) as a test client.
-
-![example](./img/example.png)
-
 ## Usage
 
 ```bash
@@ -33,6 +25,21 @@ Options:
   -T, --no-trim      Don't trim message               [boolean] [default: false]
   -e, --allow-empty  Allow empty message              [boolean] [default: false]
   -E, --echo         Print message from the server    [boolean] [default: false]
+```
+
+## Commands
+
+```bash
+# send message to all clients
+@all <message>
+# you can omit @all
+<message>
+
+# send message to a specific client
+@<id> <message>
+
+# disconnect a client
+!<id>
 ```
 
 ## [CHANGELOG](https://github.com/DiscreteTom/ws-server/blob/main/CHANGELOG.md)
