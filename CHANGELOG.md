@@ -2,6 +2,7 @@
 
 ## v0.1.3
 
+- Feat: disconnect client from server using `!<id>`. [#1](https://github.com/DiscreteTom/ws-server/issues/1)
 - Fix: better header format.
 
 ## v0.1.2

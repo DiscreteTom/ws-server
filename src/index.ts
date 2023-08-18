@@ -51,7 +51,19 @@ function print(msg: string) {
 }
 
 rl.on("line", async (answer) => {
-  if (answer.startsWith("@all ") || !answer.match(/^@\d+ /)) {
+  if (answer.match(/^!\d+$/)) {
+    // disconnect client
+    const id = Number(answer.slice(1));
+    const ws = clients.get(id);
+    if (ws) {
+      await new Promise<void>((resolve) => {
+        ws.close();
+        ws.on("close", () => resolve());
+      });
+    } else {
+      print(chalk.red(`Client @${id} not found`));
+    }
+  } else if (answer.startsWith("@all ") || !answer.match(/^@\d+ /)) {
     // broadcast to all clients
     const raw = answer.startsWith("@all ") ? answer.slice(5) : answer;
     const content = argv.T ? raw : raw.trim();
@@ -79,6 +91,7 @@ rl.on("line", async (answer) => {
       print(chalk.gray("Empty message, ignored."));
     }
   } else {
+    // send to specific client
     const id = answer.match(/^@(\d+) /)![1];
     const raw = answer.slice(id.length + 2); // +2 for @ and space
     const content = argv.T ? raw : raw.trim();
