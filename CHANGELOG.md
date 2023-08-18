@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.1.3
+
+- Fix: better header format.
+
 ## v0.1.2
 
 Fix publish error, add npm ignore.

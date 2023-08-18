@@ -112,7 +112,10 @@ wss.on("connection", function connection(ws, req) {
   clients.set(currentClientId, ws);
 
   print(chalk.green(`Client @${currentClientId} connected`));
-  if (argv.h) print(`Headers @${currentClientId}: ${req.headers}`);
+  if (argv.h)
+    print(
+      `Headers @${currentClientId}: ${JSON.stringify(req.headers, null, 2)}`
+    );
 
   ws.on("error", (err) => {
     print(chalk.red(`@${currentClientId}: ${err.message}`));
